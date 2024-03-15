@@ -1,6 +1,7 @@
 [versions]
 activityCompose = "1.8.2"
 agp = "8.3.0"
+coil = "2.6.0"
 composeBom = "2024.02.02"
 coreKtxVersion = "1.12.0"
 koinKtor = "3.4.1"
@@ -18,6 +19,7 @@ uiToolingPreview = "1.6.3"
 
 [libraries]
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
 core-ktx-v1101 = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
