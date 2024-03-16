@@ -43,6 +43,16 @@ android {
 }
 
 dependencies {
+    implementation(libs.coil.compose)
+
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+
+    implementation(libs.koin.android)
+    implementation(libs.koin.ktor)
+
     implementation(libs.navigation.compose)
 
     implementation(libs.core.ktx)

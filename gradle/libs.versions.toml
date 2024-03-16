@@ -1,10 +1,15 @@
 [versions]
 activityCompose = "1.8.2"
 agp = "8.3.0"
+coil = "2.6.0"
 composeBom = "2024.02.02"
 coreKtxVersion = "1.12.0"
+koinKtor = "3.4.1"
+koinAndroid = "3.4.1"
 kotlin = "1.9.0"
 kotlinBom = "1.8.22"
+ktorClientAndroid = "2.3.1"
+ktorClientCore = "2.3.3"
 lifecycleRuntimeKtx = "2.7.0"
 material3 = "1.2.1"
 navigationCompose = "2.7.7"
@@ -14,10 +19,17 @@ uiToolingPreview = "1.6.3"
 
 [libraries]
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
 core-ktx-v1101 = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
+koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koinKtor" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlinBom" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorClientCore" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktorClientAndroid" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorClientCore" }
 lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
