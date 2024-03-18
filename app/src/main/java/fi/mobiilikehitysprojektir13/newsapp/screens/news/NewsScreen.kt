@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import fi.mobiilikehitysprojektir13.newsapp.screens.news.components.NewsItem
 import fi.mobiilikehitysprojektir13.newsapp.screens.news.viewmodel.NewsViewModel
 
+
 @Composable
 fun NewsScreen(navController: NavController) {
     val newsViewModel: NewsViewModel = viewModel()
@@ -35,3 +36,4 @@ fun NewsScreen(navController: NavController) {
         }
     }
 }
+
