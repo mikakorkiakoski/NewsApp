@@ -15,12 +15,7 @@ import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
 // WARNING Put key here but DON'T commit it
-private const val API_KEY = "pub_40074d1d7872307fc1b23af0339c4f83e5401"
-
-// TODO Replace with real data from other screen, as example over Pref Settings
-private val categories = emptySet<String>()
-private val countries = emptySet<String>()
-private val languages = emptySet<String>()
+private const val API_KEY = ""
 
 val networkModule = module {
     single { provideKtorClient() }
@@ -41,9 +36,6 @@ private fun provideKtorClient(): HttpClient = HttpClient(Android) {
             protocol = URLProtocol.HTTPS
             contentType(ContentType.Application.Json)
             parameters.append("apikey", API_KEY)
-            if (categories.isNotEmpty()) parameters.append("category", categories.joinToString(","))
-            if (countries.isNotEmpty()) parameters.append("country", countries.joinToString(","))
-            if (languages.isNotEmpty()) parameters.append("language", languages.joinToString(","))
         }
     }
 }

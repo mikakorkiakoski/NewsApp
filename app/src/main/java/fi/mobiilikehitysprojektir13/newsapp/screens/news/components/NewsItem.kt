@@ -38,7 +38,7 @@ fun NewsItem(navController: NavController, newsItem: News.Article) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 overflow = TextOverflow.Ellipsis,
-                text = newsItem.description ?: "",
+                text = newsItem.description ?: "No description :(",
                 maxLines = 1
             )
         }

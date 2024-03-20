@@ -19,13 +19,14 @@ object NewsViewModel : ViewModel() {
     private val _article = MutableStateFlow<News.Article?>(null)
     val article: StateFlow<News.Article?> = _article
 
-    init {
-        fetchProjects()
-    }
-
-    private fun fetchProjects() {
+    fun searchNews(
+        query: String = "",
+        categories: Set<String> = emptySet(),
+        countries: Set<String> = emptySet(),
+        languages: Set<String> = emptySet()
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
-            val fetchedProjects = api.getLatestNews()
+            val fetchedProjects = api.getLatestNews(query, categories, countries, languages)
             _news.emit(fetchedProjects)
         }
     }
