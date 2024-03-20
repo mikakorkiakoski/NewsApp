@@ -12,12 +12,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import fi.mobiilikehitysprojektir13.newsapp.screens.news.components.NewsToolbar
 import fi.mobiilikehitysprojektir13.newsapp.ui.theme.Dark
 import fi.mobiilikehitysprojektir13.newsapp.ui.theme.NewsTheme
+import fi.mobiilikehitysprojektir13.newsapp.ui.theme.components.DefaultToolbar
 import fi.mobiilikehitysprojektir13.newsapp.ui.theme.components.NavigationHost
 
 class MainActivity : ComponentActivity() {
@@ -26,34 +30,30 @@ class MainActivity : ComponentActivity() {
         setContent {
             NewsTheme {
                 val navController = rememberNavController()
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentDestination = navBackStackEntry?.destination
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(48.dp)
-                                .background(Dark),
-                            Alignment.Center
-                        ) {
-                            Text(text = "Header")
+                        when (currentDestination?.route) {
+                            Screens.News.route -> NewsToolbar()
+                            else -> DefaultToolbar(navController)
                         }
                     }, bottomBar = {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(48.dp)
-                                .background(Dark),
-                            Alignment.Center
-                        ) {
-                            Text(text = "Bottom")
+                        if (navBackStackEntry?.destination?.route == Screens.News.route) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(48.dp)
+                                    .background(Dark),
+                                Alignment.Center
+                            ) {
+                                Text(text = "Bottom")
+                            }
                         }
                     }) { paddingValues ->
-                        NavigationHost(
-                            navController = navController,
-                            paddingValues = paddingValues
-                        )
+                        NavigationHost(navController = navController, paddingValues = paddingValues)
                     }
                 }
             }
