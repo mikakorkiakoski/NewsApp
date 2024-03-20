@@ -30,7 +30,7 @@ fun CategoryChips(onChange: (categories: Set<String>) -> Unit) {
             .padding(horizontal = 8.dp)
     ) {
         setOf(
-            "Politics", "Business", "Technology", "Science", "Health", "Entertainment", "Sports"
+            "business", "crime", "domestic", "education", "entertainment", "environment", "food", "health", "lifestyle", "other", "politics", "science", "sports", "technology", "top", "tourism", "world"
         ).forEach { category ->
             val isSelected = selectedCategories.contains(category)
             FilterChip(onClick = {
@@ -40,7 +40,8 @@ fun CategoryChips(onChange: (categories: Set<String>) -> Unit) {
                 }
                 onChange.invoke(selectedCategories.toSet())
             }, label = {
-                Text(text = category, color = if (isSelected) Color.Black else Color.White)
+                Text(text = category.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() } ,
+                    color = if (isSelected) Color.Black else Color.White)
             }, selected = isSelected, leadingIcon = {
                 if (isSelected) Icon(
                     imageVector = Icons.Filled.Done,
