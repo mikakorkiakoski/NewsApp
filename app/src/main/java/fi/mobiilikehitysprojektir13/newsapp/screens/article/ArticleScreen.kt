@@ -1,8 +1,10 @@
 package fi.mobiilikehitysprojektir13.newsapp.screens.article
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,12 +51,17 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
                 contentDescription = null
             )
             Column(modifier = Modifier.padding(8.dp)) {
+                Row {
+                    article?.category?.forEach {
+                        AssistChip(onClick = {}, label = { Text(text = it) })
+                    }
+                }
                 Text(
                     text = article?.title ?: "Title not found",
                     fontSize = 24.sp,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
-                Text(text = article?.description ?: "Description not found")
+                Text(text = article?.description ?: "No description :(")
             }
         }
     }
