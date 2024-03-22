@@ -44,7 +44,6 @@ fun CategoryChips(onChange: (categories: Set<String>) -> Unit) {
             "science",
             "sports",
             "technology",
-            "top",
             "tourism",
             "world"
         ).forEach { category ->
