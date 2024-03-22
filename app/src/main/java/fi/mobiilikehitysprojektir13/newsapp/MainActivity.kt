@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import fi.mobiilikehitysprojektir13.newsapp.components.BottomBar
 import fi.mobiilikehitysprojektir13.newsapp.screens.news.components.NewsToolbar
 import fi.mobiilikehitysprojektir13.newsapp.ui.theme.Dark
 import fi.mobiilikehitysprojektir13.newsapp.ui.theme.NewsTheme
@@ -49,7 +50,7 @@ class MainActivity : ComponentActivity() {
                                     .background(Dark),
                                 Alignment.Center
                             ) {
-                                Text(text = "Bottom")
+                                BottomBar(navController = navController)
                             }
                         }
                     }) { paddingValues ->

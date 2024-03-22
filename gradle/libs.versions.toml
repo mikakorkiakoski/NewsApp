@@ -1,6 +1,6 @@
 [versions]
 activityCompose = "1.8.2"
-agp = "8.3.0"
+agp = "8.3.1"
 coil = "2.6.0"
 composeBom = "2024.02.02"
 coreKtxVersion = "1.12.0"
