@@ -11,16 +11,24 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import fi.mobiilikehitysprojektir13.newsapp.screens.country.components.LanguageSection
+
 import fi.mobiilikehitysprojektir13.newsapp.screens.country.components.Map
+
+//TODO: button functionality
+//TODO: get the actual language list
 
 @Composable
 fun CountrySelectionScreen () {
+
+    val languages = listOf("English", "Spanish", "French", "German", "Finnish", "a", "b", "c", "d", "e", "f")
 
     Surface (
         modifier = Modifier
@@ -73,6 +81,33 @@ fun CountrySelectionScreen () {
                     Text(text = "Use manually selected location")
                 }
             }
+            Surface {
+
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Row (
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+
+                        Text(
+                            text = "Select language:",
+                            fontSize = 20.sp)
+
+                        LanguageSection(languages = languages)
+                    }
+                }
+            }
+
+            Button(onClick = { /*TODO*/ },
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)) {
+                Text(text = "Confirm",
+                    fontSize = 20.sp)
+            }
         }
     }
 }
@@ -80,7 +115,7 @@ fun CountrySelectionScreen () {
 @Preview
 @Composable
 fun CountrySelectionScreenPreview(){
- CountrySelectionScreen()
+    CountrySelectionScreen()
 
 
 }
