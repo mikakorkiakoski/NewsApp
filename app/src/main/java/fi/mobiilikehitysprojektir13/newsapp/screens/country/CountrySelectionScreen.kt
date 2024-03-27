@@ -19,16 +19,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fi.mobiilikehitysprojektir13.newsapp.screens.country.components.LanguageSection
+import fi.mobiilikehitysprojektir13.newsapp.screens.country.languages.languages
 
 import fi.mobiilikehitysprojektir13.newsapp.screens.country.components.Map
 
 //TODO: button functionality
-//TODO: get the actual language list
 
 @Composable
 fun CountrySelectionScreen () {
 
-    val languages = listOf("English", "Spanish", "French", "German", "Finnish", "a", "b", "c", "d", "e", "f")
+    val languageOptions = languages.map { it.name }
 
     Surface (
         modifier = Modifier
@@ -97,7 +97,7 @@ fun CountrySelectionScreen () {
                             text = "Select language:",
                             fontSize = 20.sp)
 
-                        LanguageSection(languages = languages)
+                        LanguageSection(languages = languageOptions)
                     }
                 }
             }
