@@ -14,7 +14,7 @@ import fi.mobiilikehitysprojektir13.newsapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DefaultToolbar(navController: NavController) {
+fun DefaultToolbar(navController: NavController, root: Boolean) {
 
     val context = LocalContext.current
 
@@ -23,7 +23,7 @@ fun DefaultToolbar(navController: NavController) {
             Text(text = context.getString(R.string.app_name))
         },
         navigationIcon = {
-            IconButton(onClick = {
+            if (!root) IconButton(onClick = {
                 navController.navigateUp()
             }) {
                 Icon(imageVector = Icons.AutoMirrored.Default.ArrowBack, contentDescription = "")
