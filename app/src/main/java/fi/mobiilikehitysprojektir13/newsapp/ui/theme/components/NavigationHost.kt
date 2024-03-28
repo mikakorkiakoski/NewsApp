@@ -2,6 +2,7 @@ package fi.mobiilikehitysprojektir13.newsapp.ui.theme.components
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -12,6 +13,7 @@ import androidx.navigation.navArgument
 import fi.mobiilikehitysprojektir13.newsapp.Screens
 import fi.mobiilikehitysprojektir13.newsapp.screens.article.ArticleScreen
 import fi.mobiilikehitysprojektir13.newsapp.screens.news.NewsScreen
+import fi.mobiilikehitysprojektir13.newsapp.screens.settings.SettingsScreen
 
 @Composable
 fun NavigationHost(
@@ -31,6 +33,12 @@ fun NavigationHost(
             arguments = listOf(navArgument(Screens.Article.argument) { type = NavType.StringType })
         ) {
             ArticleScreen(navController, it)
+        }
+        composable(Screens.Settings.route) {
+            SettingsScreen()
+        }
+        composable(Screens.Favorite.route) {
+            Text(text = "Favorites? :)")
         }
     }
 }
