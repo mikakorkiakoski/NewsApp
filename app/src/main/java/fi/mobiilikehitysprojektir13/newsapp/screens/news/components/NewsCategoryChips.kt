@@ -55,7 +55,7 @@ fun CategoryChips(onChange: (categories: Set<String>) -> Unit) {
                 }
                 onChange.invoke(selectedCategories.toSet())
             }, label = {
-                Text(text = category.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() },
+                Text(text = category.replaceFirstChar {  it.titlecase()  },
                     color = if (isSelected) Color.Black else Color.White)
             }, selected = isSelected, leadingIcon = {
                 if (isSelected) Icon(
