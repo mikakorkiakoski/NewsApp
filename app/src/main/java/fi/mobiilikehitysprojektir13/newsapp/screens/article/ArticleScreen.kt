@@ -52,8 +52,8 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
             )
             Column(modifier = Modifier.padding(8.dp)) {
                 Row {
-                    article?.category?.forEach {
-                        AssistChip(onClick = {}, label = { Text(text = it) })
+                    article?.category?.forEach {category ->
+                        AssistChip(onClick = {}, label =  { Text(text = category.replaceFirstChar { it.uppercase() })})
                     }
                 }
                 Text(
