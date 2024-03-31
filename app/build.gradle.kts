@@ -68,6 +68,9 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.core.ktx.v1101)
 
+    implementation(libs.datastore.preferences)
+    implementation(libs.datastore.core)
+
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 }
