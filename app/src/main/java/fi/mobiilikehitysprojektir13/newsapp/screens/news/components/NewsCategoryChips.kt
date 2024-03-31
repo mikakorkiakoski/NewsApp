@@ -15,8 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -40,12 +38,11 @@ fun CategoryChips(onChange: (categories: Set<String>) -> Unit) {
                 }
                 onChange.invoke(selectedCategories.toSet())
             }, label = {
-                Text(text = category, color = if (isSelected) Color.Black else Color.White)
+                Text(text = category)
             }, selected = isSelected, leadingIcon = {
                 if (isSelected) Icon(
                     imageVector = Icons.Filled.Done,
                     contentDescription = "Done icon",
-                    tint = Color.Black,
                     modifier = Modifier.size(FilterChipDefaults.IconSize)
 
                 )
@@ -53,12 +50,3 @@ fun CategoryChips(onChange: (categories: Set<String>) -> Unit) {
         }
     }
 }
-
-@Preview
-@Composable
-fun PreviewCategoryChips() {
-    CategoryChips {
-
-    }
-}
-
