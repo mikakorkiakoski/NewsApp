@@ -12,36 +12,37 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import fi.mobiilikehitysprojektir13.newsapp.ui.theme.Dark
+import fi.mobiilikehitysprojektir13.newsapp.data.store.StoreUserSettings
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 enum class FontSize {
     Small, Medium, Large, ExtraLarge
 }
 
-//TODO: improve visual look, add arrow icon indicating that you can open drop down menu
-//TODO: functionality.
 @Composable
 fun SettingsScreen() {
 
-    var selectedFontSize by remember { mutableStateOf(FontSize.Medium) }
-    var isDarkTheme by remember { mutableStateOf(true) }
-    var sliderPosition by remember { mutableFloatStateOf(0f) }
+    val context = LocalContext.current
+    val dataStore = StoreUserSettings(context)
+
+    val fontSize by dataStore.getFontSize.collectAsState(FontSize.Medium)
+    val isDarkMode by dataStore.isDarkMode.collectAsState(true)
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
     ) {
-        Text(text = "Font Size: ${selectedFontSize.name}")
+        Text(text = "Font Size: ${fontSize.name}")
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -50,15 +51,16 @@ fun SettingsScreen() {
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 8.dp),
-                value = sliderPosition,
+                value = FontSize.entries.indexOf(fontSize).toFloat(),
                 onValueChange = {
-                    sliderPosition = it
-                    selectedFontSize = FontSize.entries[it.toInt()]
+                    CoroutineScope(Dispatchers.IO).launch {
+                        dataStore.saveFontSize(FontSize.entries[it.toInt()])
+                    }
                 },
                 colors = SliderDefaults.colors(
                     thumbColor = MaterialTheme.colorScheme.primary,
                     activeTrackColor = MaterialTheme.colorScheme.primary,
-                    inactiveTrackColor = MaterialTheme.colorScheme.primaryContainer,
+                    inactiveTrackColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 steps = 2,
                 valueRange = 0f..3f
@@ -71,16 +73,22 @@ fun SettingsScreen() {
         ) {
             Text(text = "Dark Theme", modifier = Modifier.weight(1f))
             Switch(
-                checked = isDarkTheme,
-                onCheckedChange = { isDarkTheme = it },
+                checked = isDarkMode,
+                onCheckedChange = {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        dataStore.enableDarkMode(it)
+                    }
+                },
             )
         }
 
         Button(
             onClick = { /* return to map screen or just give list of possible countries? */ },
-            modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp)
         ) {
-            Text(text = "Change Country/Language", color = Dark)
+            Text(text = "Change Country/Language")
         }
     }
 }
