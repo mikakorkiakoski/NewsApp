@@ -12,17 +12,20 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CategoryChips(onChange: (categories: Set<String>) -> Unit) {
-
-    val selectedCategories = remember { mutableStateListOf<String>() }
+fun CategoryChips(onChange: (category: String) -> Unit) {
+    // Use an index to keep track of the selected category
+    var selectedIndex by remember { mutableStateOf<Int?>(null) }
 
     Row(
         modifier = Modifier
@@ -31,14 +34,12 @@ fun CategoryChips(onChange: (categories: Set<String>) -> Unit) {
     ) {
         setOf(
             "Politics", "Business", "Technology", "Science", "Health", "Entertainment", "Sports"
-        ).forEach { category ->
-            val isSelected = selectedCategories.contains(category)
+        ).forEachIndexed { index, category ->
+            val isSelected = index == selectedIndex
             FilterChip(onClick = {
-                when {
-                    isSelected -> selectedCategories.remove(category)
-                    else -> selectedCategories.add(category)
-                }
-                onChange.invoke(selectedCategories.toSet())
+                // Update the selectedIndex to the current index
+                selectedIndex = index
+                selectedIndex?.let { onChange.invoke(setOf("Politics", "Business", "Technology", "Science", "Health", "Entertainment", "Sports").elementAt(it)) }
             }, label = {
                 Text(text = category, color = if (isSelected) Color.Black else Color.White)
             }, selected = isSelected, leadingIcon = {
@@ -47,7 +48,6 @@ fun CategoryChips(onChange: (categories: Set<String>) -> Unit) {
                     contentDescription = "Done icon",
                     tint = Color.Black,
                     modifier = Modifier.size(FilterChipDefaults.IconSize)
-
                 )
             }, modifier = Modifier.padding(horizontal = 2.dp))
         }
