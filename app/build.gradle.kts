@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
     implementation(libs.core.ktx.v1101)
+    implementation(libs.accompanist.permissions)
 
     implementation(libs.datastore.preferences)
     implementation(libs.datastore.core)
