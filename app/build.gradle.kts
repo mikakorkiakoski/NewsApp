@@ -69,6 +69,9 @@ dependencies {
     implementation(libs.core.ktx.v1101)
     implementation(libs.accompanist.permissions)
 
+    implementation(libs.datastore.preferences)
+    implementation(libs.datastore.core)
+
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 }
