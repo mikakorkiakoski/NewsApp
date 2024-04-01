@@ -28,7 +28,7 @@ fun NewsToolbar() {
         })
 
         CategoryChips(onChange = {
-            categories.value = it
+            categories.value = setOf(it)
         })
     }
 }
