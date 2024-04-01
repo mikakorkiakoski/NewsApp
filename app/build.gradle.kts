@@ -43,6 +43,8 @@ android {
 }
 
 dependencies {
+    implementation("org.osmdroid:osmdroid-android:6.1.16")
+    implementation("tech.utsmankece:osm-android-compose:0.0.5")
     implementation(libs.coil.compose)
 
     implementation(libs.ktor.client.core)
@@ -65,6 +67,10 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
     implementation(libs.core.ktx.v1101)
+    implementation(libs.accompanist.permissions)
+
+    implementation(libs.datastore.preferences)
+    implementation(libs.datastore.core)
 
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
