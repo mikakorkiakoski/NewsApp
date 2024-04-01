@@ -19,7 +19,7 @@ private const val API_KEY = ""
 
 val networkModule2 = module {
     single { provideKtorClient() }
-    single { provideNashStoreApiService(get()) }
+    single { provideOpenWeatherMapApiService(get()) }
 }
 
 private fun provideKtorClient(): HttpClient = HttpClient(Android) {
@@ -40,5 +40,5 @@ private fun provideKtorClient(): HttpClient = HttpClient(Android) {
     }
 }
 
-private fun provideNashStoreApiService(httpClient: HttpClient): OpenWeatherMapApi =
+private fun provideOpenWeatherMapApiService(httpClient: HttpClient): OpenWeatherMapApi =
     OpenWeatherMapApiImpl(httpClient)

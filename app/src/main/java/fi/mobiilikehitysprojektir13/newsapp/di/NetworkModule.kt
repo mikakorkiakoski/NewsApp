@@ -19,7 +19,7 @@ private const val API_KEY = ""
 
 val networkModule = module {
     single { provideKtorClient() }
-    single { provideNashStoreApiService(get()) }
+    single { provideNewsDataApiService(get()) }
 }
 
 private fun provideKtorClient(): HttpClient = HttpClient(Android) {
@@ -40,5 +40,5 @@ private fun provideKtorClient(): HttpClient = HttpClient(Android) {
     }
 }
 
-private fun provideNashStoreApiService(httpClient: HttpClient): NewsDataApi =
+private fun provideNewsDataApiService(httpClient: HttpClient): NewsDataApi =
     NewsDataApiImpl(httpClient)
