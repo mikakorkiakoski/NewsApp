@@ -43,6 +43,8 @@ android {
 }
 
 dependencies {
+    implementation("org.osmdroid:osmdroid-android:6.1.16")
+    implementation("tech.utsmankece:osm-android-compose:0.0.5")
     implementation(libs.coil.compose)
 
     implementation(libs.ktor.client.core)

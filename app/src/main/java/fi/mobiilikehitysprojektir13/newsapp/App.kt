@@ -2,6 +2,7 @@ package fi.mobiilikehitysprojektir13.newsapp
 
 import android.app.Application
 import fi.mobiilikehitysprojektir13.newsapp.di.networkModule
+import fi.mobiilikehitysprojektir13.newsapp.di.networkModule2
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -13,7 +14,7 @@ class App : Application() {
         startKoin {
             androidLogger(Level.ERROR)
             androidContext(this@App)
-            modules(networkModule)
+            modules(networkModule, networkModule2)
         }
     }
 }
