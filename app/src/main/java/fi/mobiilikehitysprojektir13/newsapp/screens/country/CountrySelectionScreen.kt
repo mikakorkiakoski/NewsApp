@@ -18,14 +18,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fi.mobiilikehitysprojektir13.newsapp.screens.country.components.LanguageSection
 import fi.mobiilikehitysprojektir13.newsapp.screens.country.components.Map
-import fi.mobiilikehitysprojektir13.newsapp.screens.country.languages.languages
 
 //TODO: button functionality
 
 @Composable
 fun CountrySelectionScreen() {
-
-    val languageOptions = languages.map { it.name }
 
     Surface(
         modifier = Modifier
@@ -97,7 +94,7 @@ fun CountrySelectionScreen() {
                             fontSize = 20.sp
                         )
 
-                        LanguageSection(languages = languageOptions)
+                        LanguageSection(languages = languages.keys)
                     }
                 }
             }
