@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
 object NewsViewModel : ViewModel() {
-    private val api by inject<NewsDataApi>(NewsDataApi::class.java)
+    private val api: NewsDataApi by inject(NewsDataApi::class.java)
 
     private val _news = MutableStateFlow<News?>(null)
     val news: StateFlow<News?> = _news
