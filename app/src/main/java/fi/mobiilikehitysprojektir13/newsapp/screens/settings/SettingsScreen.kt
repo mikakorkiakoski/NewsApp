@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import fi.mobiilikehitysprojektir13.newsapp.data.store.StoreUserSettings
+import fi.mobiilikehitysprojektir13.newsapp.data.store.UserSettingsStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,7 +32,7 @@ enum class FontSize {
 fun SettingsScreen() {
 
     val context = LocalContext.current
-    val dataStore = StoreUserSettings(context)
+    val dataStore = UserSettingsStore(context)
 
     val fontSize by dataStore.getFontSize.collectAsState(FontSize.Medium)
     val isDarkMode by dataStore.isDarkMode.collectAsState(true)

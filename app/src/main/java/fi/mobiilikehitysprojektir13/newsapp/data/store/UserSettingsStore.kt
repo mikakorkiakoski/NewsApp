@@ -11,7 +11,7 @@ import fi.mobiilikehitysprojektir13.newsapp.screens.settings.FontSize
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class StoreUserSettings(private val context: Context) {
+class UserSettingsStore(private val context: Context) {
     companion object {
         private val Context.dataStorage: DataStore<Preferences> by preferencesDataStore("userSettings")
         val COUNTRY_KEY = stringPreferencesKey("country")

@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import fi.mobiilikehitysprojektir13.newsapp.data.store.StoreUserSettings
+import fi.mobiilikehitysprojektir13.newsapp.data.store.UserSettingsStore
 import fi.mobiilikehitysprojektir13.newsapp.screens.settings.FontSize
 
 private val LightColorScheme = lightColorScheme(
@@ -100,7 +100,7 @@ fun NewsTheme(
 ) {
 
     val context = LocalContext.current
-    val dataStore = StoreUserSettings(context)
+    val dataStore = UserSettingsStore(context)
 
     val fontSize by dataStore.getFontSize.collectAsState(FontSize.Medium)
     val isDarkMode by dataStore.isDarkMode.collectAsState(true)
