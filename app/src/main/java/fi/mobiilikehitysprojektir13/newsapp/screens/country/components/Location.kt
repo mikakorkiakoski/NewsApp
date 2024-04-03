@@ -17,8 +17,6 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 
-// TODO Later move from screens package to specify screen
-
 enum class LocationStatus {
     FETCHING, DENIED, SUCCESS
 }
@@ -56,19 +54,19 @@ fun Location(content: @Composable (LocationWithPermission) -> Unit) {
     LaunchedEffect(locationPermissionState) {
         val status = locationPermissionState.status
         when {
-            status.isGranted || status.shouldShowRationale -> requestPermissionLauncher.launch(
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-
-            !status.isGranted || status.shouldShowRationale -> LocationWithPermission(
-                null, LocationStatus.DENIED
-            )
-
-            else -> locationManager.requestLocationUpdates(
+            status.isGranted -> locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER, 2000, 10f
             ) {
                 location.value = LocationWithPermission(it, LocationStatus.SUCCESS)
             }
+
+            status.shouldShowRationale -> requestPermissionLauncher.launch(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+
+            else -> requestPermissionLauncher.launch(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
         }
     }
 
