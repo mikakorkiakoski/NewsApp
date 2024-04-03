@@ -1,29 +1,27 @@
 package fi.mobiilikehitysprojektir13.newsapp.data.api
 
-import android.util.Log
 import fi.mobiilikehitysprojektir13.newsapp.data.dto.News
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.request.host
 import io.ktor.client.request.parameter
-import io.ktor.client.statement.request
 
 class NewsDataApiImpl(private val httpClient: HttpClient) : NewsDataApi {
+
+    companion object {
+        // WARNING Put key here but DON'T commit it
+        private const val NEWS_API_KEY = "pub_400748a7dd522f1ae9d4c6725d3062c3a70e2"
+    }
+
     override suspend fun getLatestNews(
         query: String, categories: Set<String>, countries: Set<String>, languages: Set<String>
-    ): News {
-
-        Log.e("getLatestNews: ", "$query | $categories")
-
-        val request = httpClient.get("news") {
-            if (query.trim().isNotBlank()) parameter("q", query)
-            if (categories.isNotEmpty()) parameter("category", categories.joinToString(","))
-            if (countries.isNotEmpty()) parameter("country", countries.joinToString(","))
-            if (languages.isNotEmpty()) parameter("language", languages.joinToString(","))
-        }
-
-        Log.d("getLatestNews: ", request.request.url.toString())
-
-        return request.body<News>()
-    }
+    ): News = httpClient.get("news") {
+        host = "newsdata.io/api/1"
+        parameter("apikey", NEWS_API_KEY)
+        if (query.trim().isNotBlank()) parameter("q", query)
+        if (categories.isNotEmpty()) parameter("category", categories.joinToString(","))
+        if (countries.isNotEmpty()) parameter("country", countries.joinToString(","))
+        if (languages.isNotEmpty()) parameter("language", languages.joinToString(","))
+    }.body<News>()
 }
