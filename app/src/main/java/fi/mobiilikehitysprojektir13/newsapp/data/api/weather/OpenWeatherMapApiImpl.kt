@@ -1,4 +1,4 @@
-package fi.mobiilikehitysprojektir13.newsapp.data.api
+package fi.mobiilikehitysprojektir13.newsapp.data.api.weather
 
 import fi.mobiilikehitysprojektir13.newsapp.data.dto.OpenWeatherMap
 import io.ktor.client.HttpClient

@@ -1,4 +1,4 @@
-package fi.mobiilikehitysprojektir13.newsapp.data.api
+package fi.mobiilikehitysprojektir13.newsapp.data.api.news
 
 import fi.mobiilikehitysprojektir13.newsapp.data.dto.News
 import io.ktor.client.HttpClient

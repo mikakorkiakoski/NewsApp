@@ -1,9 +1,9 @@
 package fi.mobiilikehitysprojektir13.newsapp.di
 
-import fi.mobiilikehitysprojektir13.newsapp.data.api.NewsDataApi
-import fi.mobiilikehitysprojektir13.newsapp.data.api.NewsDataApiImpl
-import fi.mobiilikehitysprojektir13.newsapp.data.api.OpenWeatherMapApi
-import fi.mobiilikehitysprojektir13.newsapp.data.api.OpenWeatherMapApiImpl
+import fi.mobiilikehitysprojektir13.newsapp.data.api.news.NewsDataApi
+import fi.mobiilikehitysprojektir13.newsapp.data.api.news.NewsDataApiImpl
+import fi.mobiilikehitysprojektir13.newsapp.data.api.weather.OpenWeatherMapApi
+import fi.mobiilikehitysprojektir13.newsapp.data.api.weather.OpenWeatherMapApiImpl
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.cache.HttpCache

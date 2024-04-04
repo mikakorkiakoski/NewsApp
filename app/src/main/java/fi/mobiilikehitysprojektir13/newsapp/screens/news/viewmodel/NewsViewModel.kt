@@ -2,7 +2,7 @@ package fi.mobiilikehitysprojektir13.newsapp.screens.news.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import fi.mobiilikehitysprojektir13.newsapp.data.api.NewsDataApi
+import fi.mobiilikehitysprojektir13.newsapp.data.api.news.NewsDataApi
 import fi.mobiilikehitysprojektir13.newsapp.data.dto.News
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
