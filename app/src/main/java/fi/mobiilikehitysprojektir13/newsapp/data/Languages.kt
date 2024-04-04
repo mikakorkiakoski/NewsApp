@@ -1,4 +1,4 @@
-package fi.mobiilikehitysprojektir13.newsapp.screens.country
+package fi.mobiilikehitysprojektir13.newsapp.data
 
 typealias Language = String
 typealias LocaleCode = String
@@ -89,6 +89,3 @@ val languages: Map<Language, LocaleCode> = mapOf(
     "Vietnamese" to "vi",
     "Welsh" to "cy",
 )
-
-/*   If null notice about that user!   */
-fun getLanguageCode(languageName: Language): String? = languages[languageName]
