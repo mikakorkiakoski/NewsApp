@@ -1,4 +1,4 @@
-package fi.mobiilikehitysprojektir13.newsapp.screens
+package fi.mobiilikehitysprojektir13.newsapp.screens.country.components
 
 import android.Manifest
 import android.annotation.SuppressLint
