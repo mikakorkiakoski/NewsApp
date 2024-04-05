@@ -1,9 +1,6 @@
 package fi.mobiilikehitysprojektir13.newsapp.data
 
-typealias Language = String
-typealias LocaleCode = String
-
-val languages: Map<Language, LocaleCode> = mapOf(
+val languages: Map<String, String> = mapOf(
     "Afrikaans" to "af",
     "Albanian" to "sq",
     "Amharic" to "am",
