@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
                         when (currentDestination?.route) {
                             Screens.News.route -> NewsToolbar()
-
+                            Screens.Map.route -> return@Scaffold
                             else -> DefaultToolbar(navController, isRoot)
                         }
                     }, bottomBar = {
