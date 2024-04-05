@@ -17,12 +17,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun CategoryChips(onChange: (category: String) -> Unit) {
-    // Use an index to keep track of the selected category
     var selectedIndex by remember { mutableStateOf<Int?>(null) }
 
     val categories = setOf(
@@ -52,16 +50,12 @@ fun CategoryChips(onChange: (category: String) -> Unit) {
         categories.forEachIndexed { index, category ->
             val isSelected = index == selectedIndex
             FilterChip(onClick = {
-                // Update the selectedIndex to the current index
                 selectedIndex = index
                 selectedIndex?.let {
                     onChange.invoke(categories.elementAt(it))
                 }
             }, label = {
-                Text(
-                    text = category.replaceFirstChar { it.titlecase() },
-                    color = if (isSelected) Color.Black else Color.White
-                )
+                Text(text = category.replaceFirstChar { it.titlecase() })
             }, selected = isSelected, leadingIcon = {
                 if (isSelected) Icon(
                     imageVector = Icons.Filled.Done,
