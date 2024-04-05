@@ -1,4 +1,4 @@
-package fi.mobiilikehitysprojektir13.newsapp.screens.news.viewmodel
+package fi.mobiilikehitysprojektir13.newsapp.screens.country.viewmodel
 
 import androidx.lifecycle.ViewModel
 import fi.mobiilikehitysprojektir13.newsapp.data.api.weather.OpenWeatherMapApi
@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.koin.java.KoinJavaComponent.inject
 
-object OpenWeatherMapViewModel : ViewModel() {
+class CountrySelectionViewModel : ViewModel() {
     private val api: OpenWeatherMapApi by inject(OpenWeatherMapApi::class.java)
 
-    fun getCountry(lat: Double, lon: Double): Flow<String> = flow {
-        api.getCountry(lat, lon)[0].country
+    fun getCountry(latitude: Double, longitude: Double): Flow<String> = flow {
+        emit(api.getCountry(latitude, longitude).first().country)
     }
 }
