@@ -14,11 +14,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import fi.mobiilikehitysprojektir13.newsapp.data.store.UserSettingsStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,10 +31,12 @@ enum class FontSize {
 }
 
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(navController: NavController) {
 
     val context = LocalContext.current
     val dataStore = UserSettingsStore(context)
+
+    val scope = rememberCoroutineScope()
 
     val fontSize by dataStore.getFontSize.collectAsState(FontSize.Medium)
     val isDarkMode by dataStore.isDarkMode.collectAsState(true)
@@ -83,8 +87,16 @@ fun SettingsScreen() {
         }
 
         Button(
-            onClick = { /* return to map screen or just give list of possible countries? */ },
-            modifier = Modifier
+            onClick = {
+                scope.launch {
+                    dataStore.saveCountry("")
+                    navController.navigate("map") {
+                        popUpTo(navController.graph.id) {
+                            inclusive = true
+                        }
+                    }
+                }
+            }, modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
         ) {
