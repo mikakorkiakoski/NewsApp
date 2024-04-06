@@ -19,6 +19,7 @@ fun NewsToolbar() {
         val context = LocalContext.current
         val userSettingsStore = UserSettingsStore(context)
         val country by userSettingsStore.getCountry.collectAsState("")
+        val language by userSettingsStore.getLanguage.collectAsState("")
 
         val newsViewModel: NewsViewModel = viewModel()
 
@@ -30,7 +31,7 @@ fun NewsToolbar() {
                 query = query.value,
                 categories = categories.value,
                 countries = setOf(country),
-                languages = setOf(country)
+                languages = setOf(language)
             )
         }
 
