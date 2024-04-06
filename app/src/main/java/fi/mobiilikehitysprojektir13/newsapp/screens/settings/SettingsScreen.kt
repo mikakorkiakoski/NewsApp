@@ -90,6 +90,7 @@ fun SettingsScreen(navController: NavController) {
             onClick = {
                 scope.launch {
                     dataStore.saveCountry("")
+                    dataStore.saveLanguage("")
                     navController.navigate("map") {
                         popUpTo(navController.graph.id) {
                             inclusive = true
