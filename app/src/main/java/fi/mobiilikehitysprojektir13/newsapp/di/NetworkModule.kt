@@ -1,5 +1,7 @@
 package fi.mobiilikehitysprojektir13.newsapp.di
 
+import fi.mobiilikehitysprojektir13.newsapp.data.api.countries.RestCountriesApi
+import fi.mobiilikehitysprojektir13.newsapp.data.api.countries.RestCountriesApiImpl
 import fi.mobiilikehitysprojektir13.newsapp.data.api.news.NewsDataApi
 import fi.mobiilikehitysprojektir13.newsapp.data.api.news.NewsDataApiImpl
 import fi.mobiilikehitysprojektir13.newsapp.data.api.weather.OpenWeatherMapApi
@@ -20,6 +22,7 @@ val networkModule = module {
     single { provideNewsKtorClient() }
     single { provideNewsDataApiService(get()) }
     single { provideOpenWeatherMapApiService(get()) }
+    single { provideRestCountriesService(get()) }
 }
 
 private fun provideNewsKtorClient(): HttpClient = HttpClient(Android) {
@@ -43,3 +46,6 @@ private fun provideNewsDataApiService(httpClient: HttpClient): NewsDataApi =
 
 private fun provideOpenWeatherMapApiService(httpClient: HttpClient): OpenWeatherMapApi =
     OpenWeatherMapApiImpl(httpClient)
+
+private fun provideRestCountriesService(httpClient: HttpClient): RestCountriesApi =
+    RestCountriesApiImpl(httpClient)
