@@ -15,12 +15,17 @@ class UserSettingsStore(private val context: Context) {
     companion object {
         private val Context.dataStorage: DataStore<Preferences> by preferencesDataStore("userSettings")
         val COUNTRY_KEY = stringPreferencesKey("country")
+        val LANGUAGE_KEY = stringPreferencesKey("language")
         val DARK_MODE_KEY = booleanPreferencesKey("darkMode")
         val FONT_SIZE_KEY = stringPreferencesKey("fontSize")
     }
 
     val getCountry: Flow<String> = context.dataStorage.data.map { preferences ->
         preferences[COUNTRY_KEY] ?: ""
+    }
+
+    val getLanguage: Flow<String> = context.dataStorage.data.map { preferences ->
+        preferences[LANGUAGE_KEY] ?: ""
     }
 
     val isDarkMode: Flow<Boolean> = context.dataStorage.data.map { preferences ->
@@ -34,6 +39,12 @@ class UserSettingsStore(private val context: Context) {
     suspend fun saveCountry(country: String) {
         context.dataStorage.edit { preferences ->
             preferences[COUNTRY_KEY] = country
+        }
+    }
+
+    suspend fun saveLanguage(language: String) {
+        context.dataStorage.edit { preferences ->
+            preferences[LANGUAGE_KEY] = language
         }
     }
 
