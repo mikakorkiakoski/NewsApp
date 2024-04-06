@@ -9,9 +9,9 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import fi.mobiilikehitysprojektir13.newsapp.data.dto.News
 
@@ -23,24 +23,25 @@ fun NewsItem(navController: NavController, newsItem: News.Article) {
             defaultElevation = 4.dp
         ),
     ) {
-        Column(
-            modifier = Modifier
-                .clickable {
-                    navController.navigate("article/${newsItem.articleId}")
-                }
-                .padding(8.dp)) {
+        Column(modifier = Modifier
+            .clickable {
+                navController.navigate("article/${newsItem.articleId}")
+            }
+            .padding(8.dp)) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 overflow = TextOverflow.Ellipsis,
-                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
                 text = newsItem.title,
             )
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                overflow = TextOverflow.Ellipsis,
-                text = newsItem.description ?: "No description :(",
-                maxLines = 1
-            )
+            newsItem.description?.let {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    overflow = TextOverflow.Ellipsis,
+                    text = it,
+                    maxLines = 1
+                )
+            }
         }
     }
 }

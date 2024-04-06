@@ -43,6 +43,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.osmdroid.android)
+    implementation(libs.osmdroid.android.compose)
     implementation(libs.coil.compose)
 
     implementation(libs.ktor.client.core)
@@ -66,6 +68,9 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.core.ktx.v1101)
     implementation(libs.accompanist.permissions)
+
+    implementation(libs.datastore.preferences)
+    implementation(libs.datastore.core)
 
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
