@@ -49,4 +49,18 @@ class NewsStore(private val context: Context) {
             }
         }
     }
+    suspend fun removeArticle(articleId: String) {
+        context.dataStorage.edit { preferences ->
+            val currentArticles = preferences[NEWS_LIST_TOKEN_KEY]?.let {
+                json.decodeFromString<Set<News.Article>>(it).toMutableSet()
+            } ?: mutableSetOf()
+
+            // Remove the article with the specified articleId
+            currentArticles.removeAll { it.articleId == articleId }
+
+            // Update the preferences with the modified set of articles
+            preferences[NEWS_LIST_TOKEN_KEY] = json.encodeToString(currentArticles)
+            println(currentArticles)
+        }
+    }
 }

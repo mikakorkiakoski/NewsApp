@@ -1,6 +1,5 @@
 package fi.mobiilikehitysprojektir13.newsapp.screens.favorites
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn

@@ -2,6 +2,7 @@ package fi.mobiilikehitysprojektir13.newsapp.screens.article
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,9 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -22,7 +20,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,6 +50,7 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
     val context = LocalContext.current
     val newsStore = NewsStore(context)
 
+
     val scope = rememberCoroutineScope()
 
     val articleId: String? = navBackStackEntry.arguments?.getString(Screens.Article.argument)
@@ -60,10 +62,18 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
         return
     }
 
+    var isSaved by remember { mutableStateOf(false) }
+
     LaunchedEffect("getArticle") {
         newsViewModel.getArticle(articleId)
     }
 
+    LaunchedEffect("getSavedArticles") {
+        newsStore.getSavedArticles.collect {
+            newsViewModel.getSavedNews(it)
+            isSaved = it.any { it.articleId == articleId }
+        }
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -101,6 +111,19 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
                     ) {
                         Box(
                             modifier = Modifier
+                                .clickable {
+                                    scope.launch {
+                                        if (isSaved) {
+                                            newsStore.removeArticle(articleId)
+                                            isSaved = false
+                                        } else {
+                                            article?.let {
+                                                newsStore.saveNewArticle(article!!)
+                                                isSaved = true
+                                            }
+                                        }
+                                    }
+                                }
                                 .border(
                                     border = BorderStroke(1.dp, Color.Gray),
                                     shape = RoundedCornerShape(4.dp)
@@ -109,29 +132,28 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 IconButton(
-                                    onClick = {
-                                        scope.launch {
-                                            article?.let {
-                                                newsStore.saveNewArticle(article!!)
-                                            }
-                                        }
-                                    }
+                                    onClick = { /* No action required here, action is handled in the Modifier.clickable */ },
+                                    modifier = Modifier.size(32.dp)
                                 ) {
                                     Icon(
-                                        ImageVector.vectorResource(R.drawable.baseline_star_outline_24),
+                                        imageVector = if (isSaved) {
+                                            ImageVector.vectorResource(R.drawable.baseline_star_24)
+                                        } else {
+                                            ImageVector.vectorResource(R.drawable.baseline_star_outline_24)
+                                        },
                                         contentDescription = null,
-                                        Modifier.size(32.dp))
+                                        tint = Color.Yellow
+                                    )
                                 }
                                 Text(
-                                    text = "Save article",
-                                    color = Color.Gray,
-                                    modifier = Modifier
-                                        .padding(16.dp)
+                                    text = if (isSaved) "Remove from favorites" else "Save to favorites",
+                                    modifier = Modifier.padding(16.dp)
                                 )
                             }
                         }
+
                     }
-                    
+
                 }
             }
         }

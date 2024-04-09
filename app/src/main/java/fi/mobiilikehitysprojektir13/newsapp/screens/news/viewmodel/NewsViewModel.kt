@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
@@ -44,4 +43,4 @@ object NewsViewModel : ViewModel() {
     suspend fun getSavedNews(savedArticles: Set<News.Article>) {
         _savedArticles.emit(savedArticles)
     }
-    }
+}
