@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -25,13 +26,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import fi.mobiilikehitysprojektir13.newsapp.R
 import fi.mobiilikehitysprojektir13.newsapp.Screens
 import fi.mobiilikehitysprojektir13.newsapp.data.store.NewsStore
 import fi.mobiilikehitysprojektir13.newsapp.screens.news.viewmodel.NewsViewModel
@@ -114,7 +118,7 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
                                     }
                                 ) {
                                     Icon(
-                                        Icons.Outlined.FavoriteBorder, //there's no outlined star icon?
+                                        ImageVector.vectorResource(R.drawable.baseline_star_outline_24),
                                         contentDescription = null,
                                         Modifier.size(32.dp))
                                 }
