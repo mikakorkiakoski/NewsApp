@@ -21,9 +21,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -31,12 +33,19 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import fi.mobiilikehitysprojektir13.newsapp.Screens
+import fi.mobiilikehitysprojektir13.newsapp.data.store.NewsStore
 import fi.mobiilikehitysprojektir13.newsapp.screens.news.viewmodel.NewsViewModel
+import kotlinx.coroutines.launch
 
+//TODO: (kind of optional) change saved/favorite icon from outline to filled if article is saved
 @Composable
 fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackEntry) {
 
     val newsViewModel: NewsViewModel = viewModel()
+    val context = LocalContext.current
+    val newsStore = NewsStore(context)
+
+    val scope = rememberCoroutineScope()
 
     val articleId: String? = navBackStackEntry.arguments?.getString(Screens.Article.argument)
 
@@ -50,6 +59,7 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
     LaunchedEffect("getArticle") {
         newsViewModel.getArticle(articleId)
     }
+
 
     LazyColumn(
         modifier = Modifier
@@ -95,7 +105,13 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 IconButton(
-                                    onClick = {saveArticle(articleId)}
+                                    onClick = {
+                                        scope.launch {
+                                            article?.let {
+                                                newsStore.saveNewArticle(article!!)
+                                            }
+                                        }
+                                    }
                                 ) {
                                     Icon(
                                         Icons.Outlined.FavoriteBorder, //there's no outlined star icon?
@@ -116,8 +132,4 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
             }
         }
     }
-}
-
-fun saveArticle(id: String){
-
 }

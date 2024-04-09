@@ -29,9 +29,24 @@ class NewsStore(private val context: Context) {
         } ?: emptySet()
     }
 
-    suspend fun saveNews(waypointsList: Set<News>) {
+    suspend fun saveNews(newsList: Set<News>) {
         context.dataStorage.edit { preferences ->
-            preferences[NEWS_LIST_TOKEN_KEY] = json.encodeToString(waypointsList)
+            preferences[NEWS_LIST_TOKEN_KEY] = json.encodeToString(newsList)
+        }
+    }
+
+    suspend fun saveNewArticle(article: News.Article) {
+        context.dataStorage.edit { preferences ->
+            val currentArticles = preferences[NEWS_LIST_TOKEN_KEY]?.let {
+                json.decodeFromString<Set<News.Article>>(it).toMutableSet()
+            } ?: mutableSetOf()
+
+            // check if article is already saved
+            if (!currentArticles.any { it.articleId == article.articleId }) {
+                currentArticles.add(article)
+                preferences[NEWS_LIST_TOKEN_KEY] = json.encodeToString(currentArticles)
+                println(currentArticles)
+            }
         }
     }
 }
