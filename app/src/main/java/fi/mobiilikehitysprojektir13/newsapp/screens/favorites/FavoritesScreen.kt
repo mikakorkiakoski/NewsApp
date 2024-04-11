@@ -37,7 +37,7 @@ fun FavoritesScreen(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp)
     ) {
-        items(savedArticles.toList()) { article ->
+        items(savedArticles) { article ->
             FavoritesItem(navController, article)
         }
     }

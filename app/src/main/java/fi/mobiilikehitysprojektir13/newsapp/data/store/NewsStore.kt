@@ -23,44 +23,15 @@ class NewsStore(private val context: Context) {
         val NEWS_LIST_TOKEN_KEY = stringPreferencesKey("news")
     }
 
-    val getSavedArticles: Flow<Set<News.Article>> = context.dataStorage.data.map { preferences ->
-        preferences[NEWS_LIST_TOKEN_KEY]?.let {
-            json.decodeFromString<Set<News.Article>>(it)
-        } ?: emptySet()
+    val getSavedArticles: Flow<List<News.Article>> = context.dataStorage.data.map { preferences ->
+        (preferences[NEWS_LIST_TOKEN_KEY]?.let {
+            json.decodeFromString<List<News.Article>>(it)
+        } ?: emptySet()).toList()
     }
-
-    suspend fun saveNews(newsList: Set<News>) {
+    suspend fun saveArticles(articles: List<News.Article>) {
         context.dataStorage.edit { preferences ->
-            preferences[NEWS_LIST_TOKEN_KEY] = json.encodeToString(newsList)
-        }
-    }
-
-    suspend fun saveNewArticle(article: News.Article) {
-        context.dataStorage.edit { preferences ->
-            val currentArticles = preferences[NEWS_LIST_TOKEN_KEY]?.let {
-                json.decodeFromString<Set<News.Article>>(it).toMutableSet()
-            } ?: mutableSetOf()
-
-            // check if article is already saved
-            if (!currentArticles.any { it.articleId == article.articleId }) {
-                currentArticles.add(article)
-                preferences[NEWS_LIST_TOKEN_KEY] = json.encodeToString(currentArticles)
-                println(currentArticles)
+                preferences[NEWS_LIST_TOKEN_KEY] = json.encodeToString(articles)
+            println(articles)
             }
-        }
-    }
-    suspend fun removeArticle(articleId: String) {
-        context.dataStorage.edit { preferences ->
-            val currentArticles = preferences[NEWS_LIST_TOKEN_KEY]?.let {
-                json.decodeFromString<Set<News.Article>>(it).toMutableSet()
-            } ?: mutableSetOf()
-
-            // Remove the article with the specified articleId
-            currentArticles.removeAll { it.articleId == articleId }
-
-            // Update the preferences with the modified set of articles
-            preferences[NEWS_LIST_TOKEN_KEY] = json.encodeToString(currentArticles)
-            println(currentArticles)
-        }
     }
 }

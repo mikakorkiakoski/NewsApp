@@ -114,14 +114,15 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
                                 .clickable {
                                     scope.launch {
                                         if (isSaved) {
-                                            newsStore.removeArticle(articleId)
+                                            newsViewModel.removeSavedArticle(articleId)
                                             isSaved = false
                                         } else {
                                             article?.let {
-                                                newsStore.saveNewArticle(article!!)
+                                                newsViewModel.addArticle(article!!)
                                                 isSaved = true
                                             }
                                         }
+                                        newsStore.saveArticles(newsViewModel.savedArticles.value)
                                     }
                                 }
                                 .border(

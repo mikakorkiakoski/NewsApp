@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
@@ -20,8 +21,8 @@ object NewsViewModel : ViewModel() {
     private val _article = MutableStateFlow<News.Article?>(null)
     val article: StateFlow<News.Article?> = _article
 
-    private val _savedArticles = MutableStateFlow<Set<News.Article>>(emptySet())
-    val savedArticles: StateFlow<Set<News.Article>> = _savedArticles.asStateFlow()
+    private val _savedArticles = MutableStateFlow<List<News.Article>>(emptyList())
+    val savedArticles: StateFlow<List<News.Article>> = _savedArticles.asStateFlow()
 
     fun searchNews(
         query: String = "",
@@ -40,7 +41,20 @@ object NewsViewModel : ViewModel() {
         _article.emit(article)
     }
 
-    suspend fun getSavedNews(savedArticles: Set<News.Article>) {
+    suspend fun getSavedNews(savedArticles: List<News.Article>) {
         _savedArticles.emit(savedArticles)
+    }
+
+    fun addArticle(article: News.Article) {
+        _savedArticles.update { current ->
+            val updatedList = current.toMutableList().apply { add(article) }
+            updatedList
+        }
+    }
+
+    fun removeSavedArticle(articleId: String) {
+        _savedArticles.update { savedArticles ->
+            savedArticles.filterNot { it.articleId == articleId }
+        }
     }
 }
