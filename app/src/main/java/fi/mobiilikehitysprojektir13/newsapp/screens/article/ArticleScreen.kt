@@ -1,20 +1,16 @@
 package fi.mobiilikehitysprojektir13.newsapp.screens.article
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -42,7 +38,6 @@ import fi.mobiilikehitysprojektir13.newsapp.data.store.NewsStore
 import fi.mobiilikehitysprojektir13.newsapp.screens.news.viewmodel.NewsViewModel
 import kotlinx.coroutines.launch
 
-//TODO: (kind of optional) change saved/favorite icon from outline to filled if article is saved
 @Composable
 fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackEntry) {
 
@@ -103,57 +98,45 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
                     article?.description?.let {
                         Text(text = it)
                     }
-                    Box(
+                    Button(
+                        onClick = {
+                            scope.launch {
+                                if (isSaved) {
+                                    newsViewModel.removeSavedArticle(articleId)
+                                    isSaved = false
+                                } else {
+                                    article?.let {
+                                        newsViewModel.addArticle(article!!)
+                                        isSaved = true
+                                    }
+                                }
+                                newsStore.saveArticles(newsViewModel.savedArticles.value)
+                            }
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .clickable {
-                                    scope.launch {
-                                        if (isSaved) {
-                                            newsViewModel.removeSavedArticle(articleId)
-                                            isSaved = false
-                                        } else {
-                                            article?.let {
-                                                newsViewModel.addArticle(article!!)
-                                                isSaved = true
-                                            }
-                                        }
-                                        newsStore.saveArticles(newsViewModel.savedArticles.value)
-                                    }
-                                }
-                                .border(
-                                    border = BorderStroke(1.dp, Color.Gray),
-                                    shape = RoundedCornerShape(4.dp)
-                                )
-                                .padding(4.dp)
-                        ) {
+                        shape = RoundedCornerShape(4.dp),
+                        border = BorderStroke(1.dp, Color.Gray),
+                        content = {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                IconButton(
-                                    onClick = { /* No action required here, action is handled in the Modifier.clickable */ },
-                                    modifier = Modifier.size(32.dp)
-                                ) {
-                                    Icon(
-                                        imageVector = if (isSaved) {
-                                            ImageVector.vectorResource(R.drawable.baseline_star_24)
-                                        } else {
-                                            ImageVector.vectorResource(R.drawable.baseline_star_outline_24)
-                                        },
-                                        contentDescription = null,
-                                        tint = Color.Yellow
-                                    )
-                                }
+                                Icon(
+                                    imageVector = if (isSaved) {
+                                        ImageVector.vectorResource(R.drawable.baseline_star_24)
+                                    } else {
+                                        ImageVector.vectorResource(R.drawable.baseline_star_outline_24)
+                                    },
+                                    contentDescription = null,
+                                    tint = Color.Yellow
+                                )
                                 Text(
                                     text = if (isSaved) "Remove from favorites" else "Save to favorites",
                                     modifier = Modifier.padding(16.dp)
                                 )
                             }
                         }
+                    )
 
-                    }
 
                 }
             }
