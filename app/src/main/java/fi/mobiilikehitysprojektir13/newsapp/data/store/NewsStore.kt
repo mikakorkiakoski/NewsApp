@@ -28,10 +28,10 @@ class NewsStore(private val context: Context) {
             json.decodeFromString<List<News.Article>>(it)
         } ?: emptySet()).toList()
     }
+
     suspend fun saveArticles(articles: List<News.Article>) {
         context.dataStorage.edit { preferences ->
-                preferences[NEWS_LIST_TOKEN_KEY] = json.encodeToString(articles)
-            println(articles)
-            }
+            preferences[NEWS_LIST_TOKEN_KEY] = json.encodeToString(articles)
+        }
     }
 }
