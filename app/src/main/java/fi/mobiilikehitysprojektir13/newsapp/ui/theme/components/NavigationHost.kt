@@ -2,7 +2,6 @@ package fi.mobiilikehitysprojektir13.newsapp.ui.theme.components
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -16,6 +15,7 @@ import fi.mobiilikehitysprojektir13.newsapp.Screens
 import fi.mobiilikehitysprojektir13.newsapp.data.store.UserSettingsStore
 import fi.mobiilikehitysprojektir13.newsapp.screens.article.ArticleScreen
 import fi.mobiilikehitysprojektir13.newsapp.screens.country.CountrySelectionScreen
+import fi.mobiilikehitysprojektir13.newsapp.screens.favorites.FavoritesScreen
 import fi.mobiilikehitysprojektir13.newsapp.screens.news.NewsScreen
 import fi.mobiilikehitysprojektir13.newsapp.screens.settings.SettingsScreen
 
@@ -49,8 +49,8 @@ fun NavigationHost(
         composable(Screens.Settings.route) {
             SettingsScreen(navController)
         }
-        composable(Screens.Favorite.route) {
-            Text(text = "Favorites? :)")
+        composable(Screens.Favorites.route) {
+            FavoritesScreen(navController)
         }
     }
 }

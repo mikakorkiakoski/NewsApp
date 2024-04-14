@@ -7,7 +7,8 @@ import kotlinx.serialization.Serializable
 data class News(
     val status: String,
     val totalResults: Int,
-    val results: List<Article> = emptyList()
+    val results: List<Article> = emptyList(),
+    val nextPage: String
 ) {
     @Serializable
     data class Article(

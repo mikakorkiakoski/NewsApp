@@ -23,15 +23,15 @@ class NewsStore(private val context: Context) {
         val NEWS_LIST_TOKEN_KEY = stringPreferencesKey("news")
     }
 
-    val getNews: Flow<Set<News>> = context.dataStorage.data.map { preferences ->
-        preferences[NEWS_LIST_TOKEN_KEY]?.let {
-            json.decodeFromString<Set<News>>(it)
-        } ?: emptySet()
+    val getSavedArticles: Flow<List<News.Article>> = context.dataStorage.data.map { preferences ->
+        (preferences[NEWS_LIST_TOKEN_KEY]?.let {
+            json.decodeFromString<List<News.Article>>(it)
+        } ?: emptySet()).toList()
     }
 
-    suspend fun saveNews(waypointsList: Set<News>) {
+    suspend fun saveArticles(articles: List<News.Article>) {
         context.dataStorage.edit { preferences ->
-            preferences[NEWS_LIST_TOKEN_KEY] = json.encodeToString(waypointsList)
+            preferences[NEWS_LIST_TOKEN_KEY] = json.encodeToString(articles)
         }
     }
 }

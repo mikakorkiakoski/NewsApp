@@ -18,9 +18,9 @@ data class BottomNavigationItem(
             route = Screens.News.route
         ),
         BottomNavigationItem(
-            label = "Favorite",
+            label = "Favorites",
             icon = Icons.Filled.Star,
-            route = Screens.Favorite.route
+            route = Screens.Favorites.route
         ),
         BottomNavigationItem(
             label = "Settings",

@@ -15,7 +15,11 @@ class NewsDataApiImpl(private val httpClient: HttpClient) : NewsDataApi {
     }
 
     override suspend fun getLatestNews(
-        query: String, categories: Set<String>, countries: Set<String>, languages: Set<String>
+        query: String,
+        categories: Set<String>,
+        countries: Set<String>,
+        languages: Set<String>,
+        newsPage: String
     ): News = httpClient.get("news") {
         host = "newsdata.io/api/1"
         parameter("apikey", NEWS_API_KEY)
@@ -23,5 +27,6 @@ class NewsDataApiImpl(private val httpClient: HttpClient) : NewsDataApi {
         if (categories.isNotEmpty()) parameter("category", categories.joinToString(","))
         if (countries.isNotEmpty()) parameter("country", countries.joinToString(","))
         if (languages.isNotEmpty()) parameter("language", languages.joinToString(","))
+        if (newsPage.isNotBlank()) parameter("page", newsPage)
     }.body<News>()
 }
