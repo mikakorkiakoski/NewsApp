@@ -7,6 +7,7 @@ interface NewsDataApi {
         query: String = "",
         categories: Set<String> = emptySet(),
         countries: Set<String> = emptySet(),
-        languages: Set<String> = emptySet()
+        languages: Set<String> = emptySet(),
+        newsPage: String
     ): News
 }

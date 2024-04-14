@@ -1,12 +1,10 @@
 package fi.mobiilikehitysprojektir13.newsapp.screens.article
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -22,7 +20,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
@@ -66,7 +63,7 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
     LaunchedEffect("getSavedArticles") {
         newsStore.getSavedArticles.collect {
             newsViewModel.getSavedNews(it)
-            isSaved = it.any { it.articleId == articleId }
+            isSaved = it.any { article -> article.articleId == articleId }
         }
     }
 
@@ -98,44 +95,39 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
                     article?.description?.let {
                         Text(text = it)
                     }
-                    Button(
-                        onClick = {
-                            scope.launch {
-                                if (isSaved) {
+                    Button(onClick = {
+                        scope.launch {
+                            isSaved = when {
+                                isSaved -> {
                                     newsViewModel.removeSavedArticle(articleId)
-                                    isSaved = false
-                                } else {
-                                    article?.let {
-                                        newsViewModel.addArticle(article!!)
-                                        isSaved = true
-                                    }
+                                    false
                                 }
-                                newsStore.saveArticles(newsViewModel.savedArticles.value)
+
+                                else -> {
+                                    newsViewModel.addArticle(article!!)
+                                    true
+                                }
                             }
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        shape = RoundedCornerShape(4.dp),
-                        border = BorderStroke(1.dp, Color.Gray),
-                        content = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(
-                                    imageVector = if (isSaved) {
-                                        ImageVector.vectorResource(R.drawable.baseline_star_24)
-                                    } else {
-                                        ImageVector.vectorResource(R.drawable.baseline_star_outline_24)
-                                    },
-                                    contentDescription = null,
-                                    tint = Color.Yellow
-                                )
-                                Text(
-                                    text = if (isSaved) "Remove from favorites" else "Save to favorites",
-                                    modifier = Modifier.padding(16.dp)
-                                )
-                            }
+                            newsStore.saveArticles(newsViewModel.savedArticles.value)
                         }
-                    )
+                    }, modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp), content = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = when {
+                                    isSaved -> ImageVector.vectorResource(R.drawable.baseline_star_24)
+                                    else -> ImageVector.vectorResource(R.drawable.baseline_star_outline_24)
+                                }, contentDescription = null
+                            )
+                            Text(
+                                text = when {
+                                    isSaved -> "Remove from favorites"
+                                    else -> "Save to favorites"
+                                }, modifier = Modifier.padding(8.dp)
+                            )
+                        }
+                    })
 
 
                 }

@@ -13,10 +13,24 @@ import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
 object NewsViewModel : ViewModel() {
+
+    data class PreviousSearch(
+        val query: String = "",
+        val categories: Set<String> = emptySet(),
+        val countries: Set<String> = emptySet(),
+        val languages: Set<String> = emptySet()
+    )
+
     private val api: NewsDataApi by inject(NewsDataApi::class.java)
 
-    private val _news = MutableStateFlow<News?>(null)
-    val news: StateFlow<News?> = _news
+    private val _nextPage = MutableStateFlow("")
+    private val previousSearch = MutableStateFlow<PreviousSearch?>(null)
+
+    private val _loading = MutableStateFlow(false)
+    val loading: StateFlow<Boolean> = _loading
+
+    private val _news = MutableStateFlow<Set<News.Article>>(emptySet())
+    val news: StateFlow<Set<News.Article>> = _news
 
     private val _article = MutableStateFlow<News.Article?>(null)
     val article: StateFlow<News.Article?> = _article
@@ -28,16 +42,32 @@ object NewsViewModel : ViewModel() {
         query: String = "",
         categories: Set<String> = emptySet(),
         countries: Set<String> = emptySet(),
-        languages: Set<String> = emptySet()
+        languages: Set<String> = emptySet(),
+        news: String = ""
     ) {
+        previousSearch.value = PreviousSearch(query, categories, countries, languages)
         viewModelScope.launch(Dispatchers.IO) {
-            val fetchedProjects = api.getLatestNews(query, categories, countries, languages)
-            _news.emit(fetchedProjects)
+            val fetchedProjects = api.getLatestNews(query, categories, countries, languages, news)
+            _nextPage.update {
+                fetchedProjects.nextPage
+            }
+            _news.update {
+                val updatedSet = it.toMutableSet().apply { addAll(fetchedProjects.results) }
+                updatedSet
+            }
+            _loading.value = false
+        }
+    }
+
+    fun loadMore() {
+        previousSearch.value?.apply {
+            _loading.value = true
+            searchNews(query, categories, countries, languages, _nextPage.value)
         }
     }
 
     suspend fun getArticle(articleId: String) {
-        val article = _news.value?.results?.find { it.articleId == articleId }
+        val article = _news.value.find { it.articleId == articleId }
         _article.emit(article)
     }
 
