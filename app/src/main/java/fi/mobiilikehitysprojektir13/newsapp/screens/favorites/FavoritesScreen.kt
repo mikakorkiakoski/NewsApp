@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import fi.mobiilikehitysprojektir13.newsapp.data.store.NewsStore
-import fi.mobiilikehitysprojektir13.newsapp.screens.favorites.components.FavoritesItem
+import fi.mobiilikehitysprojektir13.newsapp.screens.news.components.NewsItem
 import fi.mobiilikehitysprojektir13.newsapp.screens.news.viewmodel.NewsViewModel
 
 @Composable
@@ -50,7 +50,7 @@ fun FavoritesScreen(navController: NavHostController) {
         contentPadding = PaddingValues(8.dp)
     ) {
         items(savedArticles.reversed()) { article ->
-            FavoritesItem(navController, article)
+            NewsItem(navController, article)
         }
     }
 }
