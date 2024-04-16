@@ -128,8 +128,6 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
                             )
                         }
                     })
-
-
                 }
             }
         }

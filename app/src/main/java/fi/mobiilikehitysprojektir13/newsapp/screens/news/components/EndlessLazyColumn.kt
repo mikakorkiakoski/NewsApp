@@ -29,8 +29,6 @@ internal fun <T> EndlessLazyColumn(
 
     val reachedBottom: Boolean by remember { derivedStateOf { listState.reachedBottom() } }
 
-    println("Load: $loading")
-
     LaunchedEffect(reachedBottom) {
         if (reachedBottom && !loading) {
             loadMore()
@@ -51,7 +49,7 @@ internal fun <T> EndlessLazyColumn(
         ) { item ->
             itemContent(item)
         }
-        if (loading) item {
+        if (loading && items.isNotEmpty()) item {
             loadingItem()
         }
     }

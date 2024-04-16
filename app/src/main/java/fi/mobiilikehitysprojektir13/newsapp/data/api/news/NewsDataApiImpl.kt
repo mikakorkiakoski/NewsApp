@@ -11,7 +11,7 @@ class NewsDataApiImpl(private val httpClient: HttpClient) : NewsDataApi {
 
     companion object {
         // WARNING Put key here but DON'T commit it
-        private const val NEWS_API_KEY = "pub_400748a7dd522f1ae9d4c6725d3062c3a70e2"
+        private const val NEWS_API_KEY = ""
     }
 
     override suspend fun getLatestNews(

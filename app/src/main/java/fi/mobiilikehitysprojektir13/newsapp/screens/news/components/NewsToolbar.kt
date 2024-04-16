@@ -1,5 +1,7 @@
 package fi.mobiilikehitysprojektir13.newsapp.screens.news.components
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,20 +29,28 @@ fun NewsToolbar() {
         val categories = remember { mutableStateOf(setOf<String>()) }
 
         LaunchedEffect(query.value, categories.value) {
-            newsViewModel.searchNews(
-                query = query.value,
-                categories = categories.value,
-                countries = setOf(country),
-                languages = setOf(language)
-            )
+            runCatching {
+                newsViewModel.searchNews(
+                    query = query.value,
+                    categories = categories.value,
+                    countries = setOf(country),
+                    languages = setOf(language)
+                )
+            }.onFailure {
+                Toast.makeText(context, it.localizedMessage, Toast.LENGTH_SHORT).show()
+                Log.e("NewsToolbar: ", it.stackTraceToString())
+                newsViewModel.stopLoading()
+            }
         }
 
         SearchBar(onSearch = {
             query.value = it
+            newsViewModel.clearNewsHistory()
         })
 
         CategoryChips(onChange = {
             categories.value = setOf(it)
+            newsViewModel.clearNewsHistory()
         })
     }
 }

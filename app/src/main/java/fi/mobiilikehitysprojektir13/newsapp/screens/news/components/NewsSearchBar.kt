@@ -39,7 +39,7 @@ fun SearchBar(
         ),
         placeholder = { Text(text = placeholder) },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        keyboardActions = KeyboardActions(onDone = {
+        keyboardActions = KeyboardActions(onSearch = {
             onSearch(searchTextState.value)
             keyboardController?.hide()
         }),
