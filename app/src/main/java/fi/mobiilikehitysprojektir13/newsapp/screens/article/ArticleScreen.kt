@@ -20,11 +20,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
@@ -90,6 +93,26 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
                     Text(
                         text = article?.title ?: "Title not found",
                         fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                    Text(
+                        text = "Source: ${article?.sourceId ?: "Unknown"}",
+                        fontStyle = FontStyle.Italic,
+                        color = Color.Gray,
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                    Text(
+                        text = "By: ${article?.creator?.joinToString() ?: "Unknown"}",
+                        fontStyle = FontStyle.Italic,
+                        color = Color.Gray,
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+
+                    Text(
+                        text = "Publication Date: ${article?.pubDate ?: "Unknown"}",
+                        fontStyle = FontStyle.Italic,
+                        color = Color.Gray,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                     article?.description?.let {
