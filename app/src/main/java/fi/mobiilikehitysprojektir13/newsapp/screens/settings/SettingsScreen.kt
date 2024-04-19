@@ -20,8 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import fi.mobiilikehitysprojektir13.newsapp.data.store.UserSettingsStore
+import fi.mobiilikehitysprojektir13.newsapp.screens.news.viewmodel.NewsViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,6 +42,8 @@ fun SettingsScreen(navController: NavController) {
 
     val fontSize by dataStore.getFontSize.collectAsState(FontSize.Medium)
     val isDarkMode by dataStore.isDarkMode.collectAsState(true)
+
+    val newsViewModel: NewsViewModel = viewModel()
 
     Column(
         modifier = Modifier
@@ -91,6 +95,7 @@ fun SettingsScreen(navController: NavController) {
                 scope.launch {
                     dataStore.saveCountry("")
                     dataStore.saveLanguage("")
+                    newsViewModel.clearNewsHistory()
                     navController.navigate("map") {
                         popUpTo(navController.graph.id) {
                             inclusive = true
