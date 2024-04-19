@@ -2,23 +2,33 @@ package fi.mobiilikehitysprojektir13.newsapp.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import fi.mobiilikehitysprojektir13.newsapp.screens.settings.FontSize
 
 fun Typography(fontSize: FontSize): Typography {
-    val spFontSize = when (fontSize) {
-        FontSize.Small -> 12.sp
-        FontSize.Medium -> 16.sp
-        FontSize.Large -> 20.sp
-        FontSize.ExtraLarge -> 24.sp
+    val fontScale = when (fontSize) {
+        FontSize.Small -> -2
+        FontSize.Medium -> 0
+        FontSize.Large -> 2
+        FontSize.ExtraLarge -> 4
     }
 
     return Typography(
-        displayLarge = TextStyle(fontSize = spFontSize),
-        displayMedium = TextStyle(fontSize = spFontSize),
-        displaySmall = TextStyle(fontSize = spFontSize),
-        bodyLarge = TextStyle(fontSize = spFontSize),
-        bodyMedium = TextStyle(fontSize = spFontSize),
-        bodySmall = TextStyle(fontSize = spFontSize),
+        bodyLarge = TextStyle(
+            fontFamily = FontFamily.Default,
+            fontWeight = FontWeight.Normal,
+            fontSize = (16 + fontScale).sp,
+            lineHeight = ((16 + fontScale) * 1.15).sp,
+            letterSpacing = 0.5.sp
+        ),
+        labelSmall = TextStyle(
+            fontFamily = FontFamily.Default,
+            fontWeight = FontWeight.Medium,
+            fontSize = (11 + fontScale).sp,
+            lineHeight = ((11 + fontScale) * 1.15).sp,
+            letterSpacing = 0.5.sp
+        ),
     )
 }
