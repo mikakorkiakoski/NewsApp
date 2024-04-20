@@ -20,8 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CategoryChips(onChange: (category: String) -> Unit) {
-    var selectedCategory by remember { mutableStateOf<String?>(null) }
+fun CategoryChips(onChange: (category: String?) -> Unit) {
+    var selectedIndex by remember { mutableStateOf<Int?>(null) }
 
     val categories = setOf(
         "business",
@@ -47,11 +47,16 @@ fun CategoryChips(onChange: (category: String) -> Unit) {
             .horizontalScroll(rememberScrollState())
             .padding(horizontal = 8.dp)
     ) {
-        categories.forEach { category ->
-            val isSelected = category == selectedCategory
+        categories.forEachIndexed { index, category ->
+            val isSelected = index == selectedIndex
             FilterChip(onClick = {
-                selectedCategory = if (isSelected) null else category
-                selectedCategory?.let { onChange.invoke(it) }
+                if (selectedIndex != index) {
+                    selectedIndex = index
+                    onChange(categories.elementAt(index))
+                } else {
+                    selectedIndex = null
+                    onChange(null)  // Return null to indicate no category is selected
+                }
             }, label = {
                 Text(text = category.replaceFirstChar { it.titlecase() })
             }, selected = isSelected, leadingIcon = {

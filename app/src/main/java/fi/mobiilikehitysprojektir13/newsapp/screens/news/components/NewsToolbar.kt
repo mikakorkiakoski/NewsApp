@@ -49,7 +49,7 @@ fun NewsToolbar() {
         })
 
         CategoryChips(onChange = {
-            categories.value = setOf(it)
+            categories.value = setOfNotNull(it)
             newsViewModel.clearNewsHistory()
         })
     }
