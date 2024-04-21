@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontStyle
@@ -80,6 +81,7 @@ fun ArticleScreen(navController: NavController, navBackStackEntry: NavBackStackE
                 AsyncImage(
                     modifier = Modifier.fillMaxWidth(),
                     model = article?.imageUrl,
+                    contentScale = ContentScale.Crop,
                     contentDescription = null
                 )
                 Column(modifier = Modifier.padding(8.dp)) {

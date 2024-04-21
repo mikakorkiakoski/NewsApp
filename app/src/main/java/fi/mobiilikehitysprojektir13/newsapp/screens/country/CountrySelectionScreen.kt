@@ -194,7 +194,7 @@ fun Selector(navController: NavController, initGeoPoint: GeoPoint) {
     }) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
             when {
-                modeMap.value -> Map { point ->
+                modeMap.value -> Map(geoPoint.value) { point ->
                     geoPoint.value = point
                 }
 

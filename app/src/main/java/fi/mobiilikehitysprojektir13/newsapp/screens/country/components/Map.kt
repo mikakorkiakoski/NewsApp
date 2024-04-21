@@ -9,6 +9,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import com.utsman.osmandcompose.CameraProperty
 import com.utsman.osmandcompose.CameraState
@@ -17,20 +19,18 @@ import com.utsman.osmandcompose.Marker
 import com.utsman.osmandcompose.MarkerState
 import com.utsman.osmandcompose.OpenStreetMap
 import com.utsman.osmandcompose.ZoomButtonVisibility
+import fi.mobiilikehitysprojektir13.newsapp.R
 import org.osmdroid.util.GeoPoint
 
 
 @Composable
-fun Map(geoPointBlock: (GeoPoint) -> Unit) {
+fun Map(selectedLocation: (GeoPoint), geoPointBlock: (GeoPoint) -> Unit) {
 
     val context = LocalContext.current
 
     var initialGeoPoint by remember {
         mutableStateOf(
-            GeoPoint(
-                64.9985196169378,
-                25.46356201171875
-            )
+            GeoPoint(selectedLocation)
         )
     }
 
@@ -47,10 +47,12 @@ fun Map(geoPointBlock: (GeoPoint) -> Unit) {
             initialGeoPoint = newGeoPoint
         }, properties = MapProperties(zoomButtonVisibility = ZoomButtonVisibility.NEVER)
     ) {
-        Marker(
-            state = MarkerState(initialGeoPoint), icon = AppCompatResources.getDrawable(
-                context, org.osmdroid.library.R.drawable.marker_default
+        if (initialGeoPoint.latitude != 0.0 || initialGeoPoint.longitude != 0.0) {
+            Marker(
+                state = MarkerState(initialGeoPoint), icon = AppCompatResources.getDrawable(
+                    context, R.drawable.baseline_location_on_48
+                )?.apply { setTint(Color.Red.toArgb()) }
             )
-        )
+        }
     }
 }
