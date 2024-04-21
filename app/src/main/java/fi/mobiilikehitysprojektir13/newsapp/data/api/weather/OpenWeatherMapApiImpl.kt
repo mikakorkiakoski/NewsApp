@@ -11,7 +11,7 @@ class OpenWeatherMapApiImpl(private val httpClient: HttpClient) : OpenWeatherMap
 
     companion object {
         // WARNING Put key here but DON'T commit it
-        private const val GEO_API_KEY = "1fcb9865721600319a938b3674146836"
+        private const val GEO_API_KEY = "ff16f3d67d0e7ddd64bc416bef1ee4da"
     }
 
     override suspend fun getCountry(lat: Double, lon: Double): List<OpenWeatherMap> =

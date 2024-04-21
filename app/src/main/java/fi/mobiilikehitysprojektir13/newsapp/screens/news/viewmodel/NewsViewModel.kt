@@ -1,15 +1,12 @@
 package fi.mobiilikehitysprojektir13.newsapp.screens.news.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import fi.mobiilikehitysprojektir13.newsapp.data.api.news.NewsDataApi
 import fi.mobiilikehitysprojektir13.newsapp.data.dto.News
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
 object NewsViewModel : ViewModel() {
@@ -38,30 +35,45 @@ object NewsViewModel : ViewModel() {
     private val _savedArticles = MutableStateFlow<List<News.Article>>(emptyList())
     val savedArticles: StateFlow<List<News.Article>> = _savedArticles.asStateFlow()
 
-    fun searchNews(
+    suspend fun searchNews(
         query: String = "",
-        categories: Set<String> = emptySet(),
+        categories: Set<String>? = null,
         countries: Set<String> = emptySet(),
         languages: Set<String> = emptySet(),
         news: String = ""
     ) {
-        previousSearch.value = PreviousSearch(query, categories, countries, languages)
-        viewModelScope.launch(Dispatchers.IO) {
-            val fetchedProjects = api.getLatestNews(query, categories, countries, languages, news)
-            _nextPage.update {
-                fetchedProjects.nextPage
-            }
-            _news.update {
-                val updatedSet = it.toMutableSet().apply { addAll(fetchedProjects.results) }
-                updatedSet
-            }
-            _loading.value = false
+        _loading.value = true
+
+        val fetchedProjects = api.getLatestNews(query, categories ?: emptySet(), countries, languages, news)
+
+        _nextPage.update {
+            fetchedProjects.nextPage ?: ""
+        }
+
+        _news.update {
+            val updatedSet = it.toMutableSet().apply { addAll(fetchedProjects.results) }
+            updatedSet
+        }
+
+        _loading.value = false
+
+        previousSearch.value = PreviousSearch(query, categories ?: emptySet(), countries, languages)
+    }
+
+    fun clearNewsHistory() {
+        _news.update {
+            emptySet()
         }
     }
 
-    fun loadMore() {
+    fun stopLoading() {
+        _loading.update {
+            false
+        }
+    }
+
+    suspend fun loadMore() {
         previousSearch.value?.apply {
-            _loading.value = true
             searchNews(query, categories, countries, languages, _nextPage.value)
         }
     }
