@@ -37,14 +37,14 @@ object NewsViewModel : ViewModel() {
 
     suspend fun searchNews(
         query: String = "",
-        categories: Set<String> = emptySet(),
+        categories: Set<String>? = null,
         countries: Set<String> = emptySet(),
         languages: Set<String> = emptySet(),
         news: String = ""
     ) {
         _loading.value = true
 
-        val fetchedProjects = api.getLatestNews(query, categories, countries, languages, news)
+        val fetchedProjects = api.getLatestNews(query, categories ?: emptySet(), countries, languages, news)
 
         _nextPage.update {
             fetchedProjects.nextPage ?: ""
@@ -57,7 +57,7 @@ object NewsViewModel : ViewModel() {
 
         _loading.value = false
 
-        previousSearch.value = PreviousSearch(query, categories, countries, languages)
+        previousSearch.value = PreviousSearch(query, categories ?: emptySet(), countries, languages)
     }
 
     fun clearNewsHistory() {

@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CategoryChips(onChange: (category: String) -> Unit) {
+fun CategoryChips(onChange: (category: String?) -> Unit) {
     var selectedIndex by remember { mutableStateOf<Int?>(null) }
 
     val categories = setOf(
@@ -50,9 +50,12 @@ fun CategoryChips(onChange: (category: String) -> Unit) {
         categories.forEachIndexed { index, category ->
             val isSelected = index == selectedIndex
             FilterChip(onClick = {
-                selectedIndex = index
-                selectedIndex?.let {
-                    onChange.invoke(categories.elementAt(it))
+                if (selectedIndex != index) {
+                    selectedIndex = index
+                    onChange(categories.elementAt(index))
+                } else {
+                    selectedIndex = null
+                    onChange(null)  // Return null to indicate no category is selected
                 }
             }, label = {
                 Text(text = category.replaceFirstChar { it.titlecase() })
