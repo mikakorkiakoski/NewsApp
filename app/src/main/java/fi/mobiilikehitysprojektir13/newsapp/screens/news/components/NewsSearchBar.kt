@@ -38,7 +38,7 @@ fun SearchBar(
             unfocusedContainerColor = MaterialTheme.colorScheme.background
         ),
         placeholder = { Text(text = placeholder) },
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(onSearch = {
             onSearch(searchTextState.value)
             keyboardController?.hide()
