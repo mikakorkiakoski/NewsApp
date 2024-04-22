@@ -30,6 +30,9 @@ fun SearchBar(
     TextField(value = searchTextState.value,
         onValueChange = {
             searchTextState.value = it
+            if(it.isEmpty()) {
+                onSearch(searchTextState.value)
+            }
         },
         singleLine = true,
         modifier = Modifier.fillMaxWidth(),
@@ -46,6 +49,9 @@ fun SearchBar(
         trailingIcon = {
             if (searchTextState.value != "") IconButton(onClick = {
                 searchTextState.value = ""
+                if(searchTextState.value == "") {
+                    onSearch(searchTextState.value)
+                }
             }) {
                 Icon(imageVector = Icons.Default.Clear, contentDescription = "Clear Icon")
             }
