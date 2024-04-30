@@ -1,12 +1,15 @@
 package fi.mobiilikehitysprojektir13.newsapp.screens.news.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import fi.mobiilikehitysprojektir13.newsapp.data.api.news.NewsDataApi
 import fi.mobiilikehitysprojektir13.newsapp.data.dto.News
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
 object NewsViewModel : ViewModel() {
@@ -35,15 +38,24 @@ object NewsViewModel : ViewModel() {
     private val _savedArticles = MutableStateFlow<List<News.Article>>(emptyList())
     val savedArticles: StateFlow<List<News.Article>> = _savedArticles.asStateFlow()
 
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean>
+        get() = _isRefreshing.asStateFlow()
+    init {
+        refreshNews()
+    }
 
-    suspend fun refreshNews() {
+     fun refreshNews() {
         // Clear existing news
         clearNewsHistory()
 
         // Fetch new news using the previous search parameters
-        previousSearch.value?.apply {
-            searchNews(query, categories, countries, languages)
-        }
+         viewModelScope.launch {
+             previousSearch.value?.apply {
+                 searchNews(query, categories, countries, languages)
+             }
+             _isRefreshing.emit(false)
+         }
     }
     suspend fun searchNews(
         query: String = "",

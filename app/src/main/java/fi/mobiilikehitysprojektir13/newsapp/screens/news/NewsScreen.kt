@@ -3,10 +3,15 @@ package fi.mobiilikehitysprojektir13.newsapp.screens.news
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -27,6 +32,7 @@ import fi.mobiilikehitysprojektir13.newsapp.screens.news.viewmodel.NewsViewModel
 import kotlinx.coroutines.launch
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NewsScreen(navController: NavController) {
     val newsViewModel: NewsViewModel = viewModel()
@@ -37,18 +43,14 @@ fun NewsScreen(navController: NavController) {
 
     val loadingState by newsViewModel.loading.collectAsState()
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        // Add a refresh button at the top of the screen
-        Button(
-            onClick = {
-                scope.launch {
-                    newsViewModel.refreshNews()
-                }
-            },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        ) {
-            Text(text = "Refresh News")
-        }
+    val isRefreshing by newsViewModel.isRefreshing.collectAsState()
+    val pullRefreshState =
+        rememberPullRefreshState(isRefreshing, { newsViewModel.refreshNews() })
+
+    Box(
+        Modifier
+            .pullRefresh(pullRefreshState)
+    ) {
 
         if (news.isEmpty() && !loadingState) Column(
             modifier = Modifier.fillMaxSize(),
@@ -86,6 +88,7 @@ fun NewsScreen(navController: NavController) {
                 }
             }
         }
+        PullRefreshIndicator(isRefreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
     }
 }
 
