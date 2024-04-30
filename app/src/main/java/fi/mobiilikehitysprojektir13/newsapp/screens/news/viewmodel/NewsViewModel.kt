@@ -35,6 +35,16 @@ object NewsViewModel : ViewModel() {
     private val _savedArticles = MutableStateFlow<List<News.Article>>(emptyList())
     val savedArticles: StateFlow<List<News.Article>> = _savedArticles.asStateFlow()
 
+
+    suspend fun refreshNews() {
+        // Clear existing news
+        clearNewsHistory()
+
+        // Fetch new news using the previous search parameters
+        previousSearch.value?.apply {
+            searchNews(query, categories, countries, languages)
+        }
+    }
     suspend fun searchNews(
         query: String = "",
         categories: Set<String>? = null,

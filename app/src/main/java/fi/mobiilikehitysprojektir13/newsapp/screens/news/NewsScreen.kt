@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,39 +37,53 @@ fun NewsScreen(navController: NavController) {
 
     val loadingState by newsViewModel.loading.collectAsState()
 
-    if (news.isEmpty() && !loadingState) Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = "News not found")
-    }
+    Column(modifier = Modifier.fillMaxSize()) {
+        // Add a refresh button at the top of the screen
+        Button(
+            onClick = {
+                scope.launch {
+                    newsViewModel.refreshNews()
+                }
+            },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text(text = "Refresh News")
+        }
 
-    if (news.isEmpty() && loadingState) Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CircularProgressIndicator()
-    }
+        if (news.isEmpty() && !loadingState) Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "News not found")
+        }
 
-    EndlessLazyColumn(
-        loading = loadingState,
-        items = news.toList(),
-        itemKey = { article: News.Article -> article.articleId },
-        itemContent = { article: News.Article ->
-            NewsItem(navController, article)
-            Spacer(modifier = Modifier.height(8.dp))
-        },
-        loadingItem = { CircularProgressIndicator() },
-    ) {
-        scope.launch {
-            runCatching {
-                newsViewModel.loadMore()
-            }.onFailure {
-                Toast.makeText(context, it.localizedMessage, Toast.LENGTH_SHORT).show()
-                Log.e("NewsScreen: ", it.stackTraceToString())
-                newsViewModel.stopLoading()
+        if (news.isEmpty() && loadingState) Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator()
+        }
+
+        EndlessLazyColumn(
+            loading = loadingState,
+            items = news.toList(),
+            itemKey = { article: News.Article -> article.articleId },
+            itemContent = { article: News.Article ->
+                NewsItem(navController, article)
+                Spacer(modifier = Modifier.height(8.dp))
+            },
+            loadingItem = { CircularProgressIndicator() },
+        ) {
+            scope.launch {
+                runCatching {
+                    newsViewModel.loadMore()
+                }.onFailure {
+                    Toast.makeText(context, it.localizedMessage, Toast.LENGTH_SHORT).show()
+                    Log.e("NewsScreen: ", it.stackTraceToString())
+                    newsViewModel.stopLoading()
+                }
             }
         }
     }
